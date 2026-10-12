@@ -27,6 +27,7 @@ def run_qeom_complete():
         unit=DistanceUnit.ANGSTROM
     )
     problem = driver.run()
+    nuclear_repulsion = problem.nuclear_repulsion_energy
     mapper = JordanWignerMapper()
 
     # 2. VQE Ground State Setup
@@ -55,14 +56,14 @@ def run_qeom_complete():
     calculation_result = qeom_solver.solve(problem)
     execution_time = time.time() - t0
 
-    # 4. Extract Energies
-    eigenvalues = calculation_result.eigenvalues
+    # 4. Extract Eigenvalues and Add Nuclear Repulsion Energy
+    eigenvalues = calculation_result.eigenvalues + nuclear_repulsion
     ground_energy = eigenvalues[0]
     excited_energies = eigenvalues[1:]
 
     # 5. Output Console Table
     print("\n" + "=" * 75)
-    print(f"{'Quantum State':<22} | {'Energy (Hartree)':<22} | {'Excitation Gap (ΔE)'}")
+    print(f"{'Quantum State':<22} | {'Total Energy (Hartree)':<22} | {'Excitation Gap (ΔE)'}")
     print("=" * 75)
     print(f"{'Ground State (E0)':<22} | {ground_energy:<22.6f} | {0.000000:<20.6f}")
     
@@ -89,7 +90,7 @@ def run_qeom_complete():
         ax1.text(0.82, energy, f'  {label}\n  {energy:.4f} Ha', va='center', fontsize=10, fontweight='bold')
 
     ax1.set_xlim(0, 1.2)
-    ax1.set_ylabel('Energy (Hartree)', fontsize=12, fontweight='bold')
+    ax1.set_ylabel('Total Energy (Hartree)', fontsize=12, fontweight='bold')
     ax1.set_title('H2 qEOM Electronic Energy Levels', fontsize=13, fontweight='bold')
     ax1.set_xticks([])
     ax1.grid(axis='y', linestyle='--', alpha=0.5)
