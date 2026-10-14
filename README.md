@@ -1,4 +1,4 @@
-# Production-Grade Quantum Computing & Quantum Chemistry Portfolio
+# Quantum Computing , Quantum Chemistry and VQE Portfolio  
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-v2.x-orange.svg)](https://qiskit.org/)
